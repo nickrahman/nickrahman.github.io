@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -96,7 +95,6 @@
   </head>
   <body>
     <main>
-      <h1>Hi | Josh Goldberg</h1>
       <iframe
         allow="autoplay; fullscreen"
         frameborder="0"
@@ -106,19 +104,6 @@
         style="top: 0%; left: 0%; width: 100%; height: 100%"
       >
       </iframe>
-      <div id="overlay">
-        <button id="enter">Enter</button>
-      </div>
-      <div id="explainer">
-        This is a "rickroll" landing page for <strong>Josh Goldberg</strong>.
-        <br />
-        <strong>
-          <a href="https://joshuakgoldberg.com" target="_blank">
-            joshuakgoldberg.com
-          </a>
-        </strong>
-        is my <em>actual</em> personal site. 🙂
-      </div>
     </main>
 
     <script src="https://player.vimeo.com/api/player.js"></script>
@@ -138,25 +123,18 @@
         overlay.className = "passed";
       }
 
-      // We don't autoplay if the user explicitly indicates not to
-      // Instead, we just swap out the UI to the iframe
-      // https://web.dev/prefers-reduced-motion
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        hideOverlayAndShowIframe();
-      } else {
-        // Finds the <button> and hooks up its click to play the video
-        const button = document.querySelector("button");
-        enter.addEventListener("click", () => {
-          player.play();
-        });
+      // Finds the <button> and hooks up its click to play the video
+      const button = document.querySelector("button");
+      enter.addEventListener("click", () => {
+        player.play();
+      });
 
-        player.on("play", hideOverlayAndShowIframe);
+      player.on("play", hideOverlayAndShowIframe);
 
-        // Immediately attempt to start playing the video
-        player.play().catch(() => {
-          console.log("I'll get you next time...");
-        });
-      }
+      // Immediately attempt to start playing the video
+      player.play().catch(() => {
+        console.log("I'll get you next time...");
+      })
     </script>
   </body>
 </html>
