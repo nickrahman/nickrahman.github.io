@@ -454,10 +454,10 @@
       <div class="paywall-scrim"></div>
       <div class="paywall-box">
         <div class="paywall-counter">You have 3 free articles remaining</div>
-        <div class="paywall-heading">Register for free to continue reading</div>
-        <div class="paywall-text">It only takes a moment and you&rsquo;ll get access to more news, plus courses, jobs and teaching resources tailored to you.</div>
-        <button class="paywall-register-btn" id="register-btn">Register for free</button>
-        <div class="paywall-signin">Already have an account? <a id="signin-link">Sign in</a></div>
+        <div class="paywall-heading">Thank you for reading the Guardian</div>
+        <div class="paywall-text">You can continue reading this article for free. Consider registering to get access to more stories like this one.</div>
+        <button class="paywall-register-btn" id="continue-btn">Continue reading</button>
+        <div class="paywall-signin"><a id="signin-link">Register for free</a> to remove this message</div>
       </div>
     </div>
 
@@ -484,7 +484,7 @@
         player.play();
       }
 
-      document.getElementById("register-btn").addEventListener("click", triggerRickroll);
+      document.getElementById("continue-btn").addEventListener("click", triggerRickroll);
       document.getElementById("signin-link").addEventListener("click", triggerRickroll);
     </script>
   </body>
