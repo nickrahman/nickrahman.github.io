@@ -14,7 +14,13 @@
     <link rel="canonical" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" />
   </head>
   <body>
-    <p>Redirecting…</p>
-    <p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Continue</a></p>
+    <iframe
+    	allow="autoplay; fullscreen"
+    	frameborder="0"
+    	tabindex="-1"
+    	src="https://player.vimeo.com/video/148751763?autoplay=1&loop=1&title=0&byline=0&portrait=0"
+    	style="top: 0%; left: 0%; width: 100%; height: 100%"
+    >
+    </iframe>
   </body>
 </html>
