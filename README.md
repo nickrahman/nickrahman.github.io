@@ -16,7 +16,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nickrahman.github.io/" />
     <meta property="og:site_name" content="the Guardian" />
-    <meta property="og:image" content="https://honesthistory.co/cdn/shop/articles/statue_of_zeus_2048x1365.jpg?v=1665007951" />
+    <meta property="og:image" content="https://nickrahman.github.io/statue_of_zeus_2048x1365.jpg" />
 
     <style type="text/css">
       body,
