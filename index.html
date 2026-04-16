@@ -2,7 +2,6 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -17,109 +16,457 @@
     <meta property="og:site_name" content="the Guardian" />
     <meta property="og:image" content="https://nickrahman.github.io/statue_of_zeus_2048x1365.jpg" />
 
-    <style type="text/css">
-      body,
-      html,
-      main,
-      #overlay {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        width: 100%;
+    <title>'Too powerful for the public': inside Anthropic's bid to win the AI publicity war | Artificial intelligence (AI) | The Guardian</title>
+
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+
+      body {
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        background: #fff;
+        color: #121212;
+        overflow-x: hidden;
+      }
+
+      /* --- Support banner --- */
+      .support-banner {
+        background: #ffe500;
+        padding: 8px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+      }
+      .support-banner-left { display: flex; align-items: center; gap: 16px; }
+      .support-banner-left strong { font-size: 15px; }
+      .support-banner-left span { font-size: 12px; color: #333; }
+      .support-btn {
+        background: #052962;
+        color: #ffe500;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: bold;
+        cursor: pointer;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
+      .support-banner-right {
+        display: flex;
+        gap: 20px;
+        font-size: 13px;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
+      .support-banner-right a { color: #121212; text-decoration: none; }
+
+      /* --- Main nav --- */
+      .main-nav {
+        background: #052962;
+        padding: 0 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 0;
+        align-items: flex-end;
+        padding-bottom: 10px;
+      }
+      .nav-links li a {
+        color: #fff;
+        text-decoration: none;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        padding: 0 16px 0 0;
+      }
+      .nav-links li.opinion a { color: #ff7f0f; }
+      .guardian-logo {
+        font-family: Georgia, serif;
+        font-size: 48px;
+        font-weight: 900;
+        color: #fff;
+        line-height: 1;
+        padding: 12px 0 6px;
+        letter-spacing: -1px;
+      }
+
+      /* --- Sub nav --- */
+      .sub-nav {
+        background: #041f4a;
+        padding: 8px 20px;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .sub-nav a { color: #fff; text-decoration: none; }
+      .sub-nav a:hover { text-decoration: underline; }
+
+      /* --- Article layout --- */
+      .article-container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 30px 20px 0;
+        display: grid;
+        grid-template-columns: 200px 1fr 300px;
+        gap: 20px;
+      }
+
+      /* --- Left column --- */
+      .article-section-label {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        color: #c70000;
+        line-height: 1.3;
+        border-top: 1px solid #c70000;
+        padding-top: 4px;
+      }
+      .author-card { margin-top: 30px; border-top: 1px solid #dcdcdc; padding-top: 12px; }
+      .author-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: #e0d5c8;
+        margin-bottom: 8px;
         overflow: hidden;
       }
-
-      h1 {
-        position: absolute;
-        top: 100%;
+      .author-avatar-placeholder {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #d4c4b0, #e8ddd0);
       }
-
-      #overlay {
-        align-items: center;
-        background: white;
-        display: flex;
-        justify-content: center;
+      .author-name {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: #c70000;
       }
-
-      #overlay.passed {
-        display: none;
+      .article-date {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        color: #707070;
+        margin-top: 4px;
       }
-
-      #enter {
+      .share-btn {
+        margin-top: 12px;
+        border: 1px solid #c70000;
+        border-radius: 20px;
+        padding: 4px 14px;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        color: #c70000;
         background: none;
-        border-radius: 3px;
-        border: none;
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 2rem;
-        font-weight: bold;
-        height: 35%;
-        max-height: 100%;
-        max-width: 100%;
-        min-height: 5rem;
-        min-width: 5rem;
-        outline: 2px solid black;
-        width: 50%;
-      }
-
-      #enter:focus {
-        outline: 7px solid green;
-      }
-
-      #enter:hover {
         cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
       }
 
-      iframe {
+      /* --- Main content --- */
+      .article-headline {
+        font-size: 34px;
+        font-weight: 700;
+        line-height: 1.15;
+        font-family: Georgia, 'Times New Roman', serif;
+        color: #121212;
+        margin-bottom: 12px;
+      }
+      .article-standfirst {
+        font-size: 18px;
+        line-height: 1.4;
+        color: #333;
+        font-weight: 700;
+        font-family: Georgia, serif;
+        margin-bottom: 20px;
+      }
+      .article-body p {
+        font-size: 17px;
+        line-height: 1.6;
+        margin-bottom: 16px;
+        color: #121212;
+      }
+      .article-body a { color: #c70000; }
+      .article-image {
+        width: 100%;
+        margin-bottom: 8px;
+      }
+      .image-caption {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 12px;
+        color: #707070;
+        margin-bottom: 20px;
+        line-height: 1.4;
+      }
+
+      /* --- Sidebar --- */
+      .sidebar { border-top: 1px solid #c70000; padding-top: 8px; }
+      .sidebar-heading {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 17px;
+        font-weight: 900;
+        margin-bottom: 12px;
+      }
+      .trending-item {
+        display: flex;
+        gap: 10px;
+        padding: 10px 0;
+        border-top: 1px solid #dcdcdc;
+        align-items: flex-start;
+      }
+      .trending-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: #e8ddd0;
+        flex-shrink: 0;
+      }
+      .trending-text {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.3;
+        color: #121212;
+      }
+      .trending-author {
+        font-size: 13px;
+        color: #c70000;
+        font-weight: 400;
+      }
+
+      /* --- Registration gate --- */
+      .gate-wrapper {
+        position: relative;
+        margin-top: -120px;
+        padding-top: 80px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 60%);
+      }
+      .gate-box {
+        background: #052962;
+        padding: 28px 32px;
+        color: #fff;
+        max-width: 620px;
+        margin: 0 auto;
+      }
+      .gate-heading {
+        font-family: Georgia, serif;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 1.3;
+        margin-bottom: 12px;
+        color: #ffe500;
+      }
+      .gate-text {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 15px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        color: #fff;
+      }
+      .gate-register-btn {
+        background: #ffe500;
+        color: #052962;
+        border: none;
+        padding: 12px 28px;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 24px;
+        cursor: pointer;
+        display: inline-block;
+      }
+      .gate-register-btn:hover { background: #ffd000; }
+      .gate-signin {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        color: #dcdcdc;
+        margin-top: 14px;
+      }
+      .gate-signin a { color: #ffe500; }
+
+      /* --- Rickroll layer --- */
+      #rickroll {
         display: none;
-        position: absolute;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+      }
+      #rickroll iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
       }
 
-      #explainer {
-        background: white;
-        bottom: 30%;
-        display: none;
-        padding: 2rem;
-        opacity: 0;
-        position: absolute;
-        right: 0;
-        width: 15rem;
-      }
-
-      #overlay.passed + #explainer {
-        display: initial;
-        opacity: 1;
+      /* --- Responsive --- */
+      @media (max-width: 900px) {
+        .article-container {
+          grid-template-columns: 1fr;
+        }
+        .support-banner-right { display: none; }
+        .sidebar { display: none; }
+        .author-card { display: none; }
+        .article-headline { font-size: 26px; }
       }
     </style>
-
-    <title>Hi | Josh Goldberg</title>
   </head>
   <body>
-    <main>
+
+    <!-- Article page -->
+    <div id="article-page">
+
+      <!-- Support banner -->
+      <div class="support-banner">
+        <div class="support-banner-left">
+          <div>
+            <strong>Support the Guardian</strong><br>
+            <span>Fund the free press with $5 per month</span>
+          </div>
+          <button class="support-btn">Support us &#10132;</button>
+        </div>
+        <div class="support-banner-right">
+          <a href="#">Print subscriptions</a>
+          <a href="#">Newsletters</a>
+          <a href="#">&#128274; Sign in</a>
+        </div>
+      </div>
+
+      <!-- Main nav -->
+      <nav class="main-nav">
+        <ul class="nav-links">
+          <li><a href="#">News</a></li>
+          <li class="opinion"><a href="#">Opinion</a></li>
+          <li><a href="#">Sport</a></li>
+          <li><a href="#">Culture</a></li>
+          <li><a href="#">Lifestyle</a></li>
+        </ul>
+        <div class="guardian-logo">The Guardian</div>
+      </nav>
+
+      <!-- Sub nav -->
+      <div class="sub-nav">
+        <a href="#">UK</a>
+        <a href="#">US politics</a>
+        <a href="#">World</a>
+        <a href="#">Climate crisis</a>
+        <a href="#">Middle East</a>
+        <a href="#">Ukraine</a>
+        <a href="#">Football</a>
+        <a href="#">Newsletters</a>
+        <a href="#">Business</a>
+        <a href="#">Environment</a>
+        <a href="#">UK politics</a>
+        <a href="#">Science</a>
+        <a href="#">Tech</a>
+        <a href="#">Global development</a>
+        <a href="#">Obituaries</a>
+      </div>
+
+      <!-- Article -->
+      <div class="article-container">
+
+        <!-- Left column -->
+        <div class="article-left">
+          <div class="article-section-label">AI (artificial<br>intelligence)</div>
+          <div class="author-card">
+            <div class="author-avatar"><div class="author-avatar-placeholder"></div></div>
+            <div class="author-name">Aisha Down</div>
+            <div class="article-date">Sun 12 Apr 2026 05.00 EDT</div>
+            <button class="share-btn">&#8599; Share</button>
+          </div>
+        </div>
+
+        <!-- Main column -->
+        <div class="article-main">
+          <h1 class="article-headline">&lsquo;Too powerful for the public&rsquo;: inside Anthropic&rsquo;s bid to win the AI publicity war</h1>
+          <p class="article-standfirst">The firm says it withheld an AI model on cybersecurity grounds but sceptics say this was hype to lure investment</p>
+
+          <img class="article-image" src="statue_of_zeus_2048x1365.jpg" alt="Anthropic AI model concept">
+          <p class="image-caption">&#128247; &lsquo;Releasing a marketing post with purposely vague language that obscures evidence &hellip; brings into question if they are trying to garner further investment without scrutiny,&rsquo; one scientist said. Photograph: Samuel Boivin/NurPhoto/Shutterstock</p>
+
+          <div class="article-body">
+            <p>This week, the AI company Anthropic said it had created an AI model so powerful that, out of a sense of overwhelming responsibility, it was <a href="#">not going to release it</a> to the public.</p>
+
+            <p>The US treasury secretary, Scott Bessent, summoned the heads of major banks for a chat about the model, Mythos. The Reform UK MP Danny Kruger wrote a letter to the government urging it to &ldquo;engage with AI firm Anthropic whose new frontier model Claude Mythos could present catastrophic risks to national security&rdquo;.</p>
+
+            <p>But several leading scientists and AI researchers have told the Guardian they believe Anthropic&rsquo;s claims are overblown &mdash; and that the real motivation behind withholding the model was</p>
+          </div>
+
+          <!-- Fade + registration gate -->
+          <div class="gate-wrapper">
+            <div class="gate-box">
+              <div class="gate-heading">Register for free and continue reading</div>
+              <div class="gate-text">It only takes a moment and you&rsquo;ll get access to more news, plus courses, jobs and teaching resources tailored to you.</div>
+              <button class="gate-register-btn" id="register-btn">Register for free</button>
+              <div class="gate-signin">Already have an account? <a href="#">Sign in</a></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+          <div class="sidebar-heading">Most viewed</div>
+          <div class="trending-item">
+            <div class="trending-avatar"></div>
+            <div class="trending-text">Justin Fairfax, ex-lieutenant governor of Virginia, kills wife and himself</div>
+          </div>
+          <div class="trending-item">
+            <div class="trending-avatar"></div>
+            <div class="trending-text">Texas immigration court interpreter detained by ICE says &lsquo;they want to make me disappear&rsquo;</div>
+          </div>
+          <div class="trending-item">
+            <div class="trending-avatar"></div>
+            <div class="trending-text">A single Epstein email shines a light on myths about American justice &ndash; and art<br><span class="trending-author">Alex Duran</span></div>
+          </div>
+          <div class="trending-item">
+            <div class="trending-avatar"></div>
+            <div class="trending-text">Justin Trudeau at Coachella? That&rsquo;s just wrong: at a certain age, things must change<br><span class="trending-author">Emma Brockes</span></div>
+          </div>
+          <div class="trending-item">
+            <div class="trending-avatar"></div>
+            <div class="trending-text">A journalist filmed an ICE protest at a Minnesota church. Then federal agents showed up at her door</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rickroll (hidden until gate click) -->
+    <div id="rickroll">
       <iframe
         allow="autoplay; fullscreen"
-        frameborder="0"
         tabindex="-1"
-        title="Never Gonna Give You Up - by Rick Astley"
-        src="https://player.vimeo.com/video/438334658?autoplay=1&loop=1&title=0&byline=0&portrait=0"
-        style="top: 0%; left: 0%; width: 100%; height: 100%"
-      >
-      </iframe>
-    </main>
+        title="Video player"
+        src="https://player.vimeo.com/video/438334658?loop=1&title=0&byline=0&portrait=0"
+      ></iframe>
+    </div>
 
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
-      const iframe = document.querySelector("iframe");
-      const player = new Vimeo.Player(iframe);
+      var rickrollEl = document.getElementById("rickroll");
+      var vimeoIframe = rickrollEl.querySelector("iframe");
+      var player = new Vimeo.Player(vimeoIframe);
 
-      // Show the iframe once the video starts playing
-      player.on("play", () => {
-        iframe.style.display = "block";
-        iframe.tabIndex = "";
+      // Gate click: show rickroll, start video with sound
+      document.getElementById("register-btn").addEventListener("click", function () {
+        rickrollEl.style.display = "block";
+        document.getElementById("article-page").style.display = "none";
+        player.play();
       });
 
-      // Attempt autoplay immediately
-      player.play().catch(() => {
-        console.log("I'll get you next time...");
+      // Also trigger on the "Sign in" link
+      document.querySelector(".gate-signin a").addEventListener("click", function (e) {
+        e.preventDefault();
+        rickrollEl.style.display = "block";
+        document.getElementById("article-page").style.display = "none";
+        player.play();
       });
     </script>
   </body>
