@@ -9,6 +9,8 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
 
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
     <meta property="og:title" content="Anthropic is Releasing Mythos Publicly" />
     <meta property="og:description" content="Here's what it means for you." />
     <meta property="og:type" content="website" />
