@@ -54,11 +54,17 @@
       }
       .support-banner-right {
         display: flex;
-        gap: 20px;
-        font-size: 13px;
+        gap: 0;
+        font-size: 14px;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        align-items: center;
       }
-      .support-banner-right a { color: #fff; text-decoration: none; }
+      .support-banner-right a {
+        color: #fff;
+        text-decoration: none;
+        padding: 0 16px;
+        border-left: 1px solid rgba(255,255,255,0.3);
+      }
 
       /* --- Main nav --- */
       .main-nav {
@@ -76,15 +82,32 @@
         align-items: flex-end;
         padding-bottom: 12px;
       }
+      .nav-links li {
+        border-left: 1px solid rgba(255,255,255,0.3);
+      }
+      .nav-links li:first-child { border-left: none; }
       .nav-links li a {
         color: #fff;
         text-decoration: none;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-size: 22px;
+        font-size: 24px;
         font-weight: 700;
-        padding: 0 28px 0 0;
+        padding: 0 24px;
       }
+      .nav-links li:first-child a { padding-left: 0; }
       .nav-links li.opinion a { color: #ff7f0f; }
+      .nav-links li.opinion {
+        position: relative;
+      }
+      .nav-links li.opinion::after {
+        content: '';
+        position: absolute;
+        bottom: -12px;
+        left: 24px;
+        right: 24px;
+        height: 3px;
+        background: #ff7f0f;
+      }
       .nav-menu-btn {
         display: inline-flex;
         align-items: center;
@@ -98,13 +121,21 @@
       }
       .guardian-logo {
         font-family: Georgia, serif;
-        font-size: 72px;
         font-weight: 900;
         font-style: italic;
         color: #fff;
-        line-height: 0.85;
-        padding: 8px 0 10px;
+        text-align: right;
+        padding: 4px 0 10px;
         letter-spacing: -2px;
+        line-height: 0.8;
+      }
+      .guardian-logo-the {
+        display: block;
+        font-size: 52px;
+      }
+      .guardian-logo-guardian {
+        display: block;
+        font-size: 80px;
       }
 
       /* --- Sub nav --- */
@@ -380,7 +411,10 @@
           <li><a href="#">Lifestyle</a></li>
           <li><a href="#" class="nav-menu-btn" aria-label="Menu">&#9776;</a></li>
         </ul>
-        <div class="guardian-logo">The Guardian</div>
+        <div class="guardian-logo">
+          <span class="guardian-logo-the">The</span>
+          <span class="guardian-logo-guardian">Guardian</span>
+        </div>
       </nav>
 
       <!-- Sub nav -->
