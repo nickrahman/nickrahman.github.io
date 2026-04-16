@@ -239,55 +239,72 @@
         font-weight: 400;
       }
 
-      /* --- Registration gate --- */
-      .gate-wrapper {
-        position: relative;
-        margin-top: -120px;
-        padding-top: 80px;
-        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 60%);
+      /* --- Slide-up paywall overlay --- */
+      .paywall-overlay {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        transform: translateY(100%);
+        animation: slideUp 0.5s ease-out 2s forwards;
       }
-      .gate-box {
+      @keyframes slideUp {
+        to { transform: translateY(0); }
+      }
+      .paywall-scrim {
+        height: 80px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.95));
+      }
+      .paywall-box {
         background: #052962;
-        padding: 28px 32px;
-        color: #fff;
-        max-width: 620px;
-        margin: 0 auto;
+        padding: 28px 32px 32px;
+        text-align: center;
       }
-      .gate-heading {
+      .paywall-counter {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        color: #ffe500;
+        margin-bottom: 6px;
+        font-weight: 700;
+      }
+      .paywall-heading {
         font-family: Georgia, serif;
-        font-size: 24px;
+        font-size: 26px;
         font-weight: 700;
         line-height: 1.3;
-        margin-bottom: 12px;
-        color: #ffe500;
+        margin-bottom: 10px;
+        color: #fff;
       }
-      .gate-text {
+      .paywall-text {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 15px;
         line-height: 1.5;
         margin-bottom: 20px;
-        color: #fff;
+        color: #dcdcdc;
+        max-width: 520px;
+        margin-left: auto;
+        margin-right: auto;
       }
-      .gate-register-btn {
+      .paywall-register-btn {
         background: #ffe500;
         color: #052962;
         border: none;
-        padding: 12px 28px;
+        padding: 12px 32px;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 16px;
         font-weight: 700;
         border-radius: 24px;
         cursor: pointer;
-        display: inline-block;
       }
-      .gate-register-btn:hover { background: #ffd000; }
-      .gate-signin {
+      .paywall-register-btn:hover { background: #ffd000; }
+      .paywall-signin {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-size: 13px;
         color: #dcdcdc;
         margin-top: 14px;
       }
-      .gate-signin a { color: #ffe500; }
+      .paywall-signin a { color: #ffe500; cursor: pointer; }
 
       /* --- Rickroll layer --- */
       #rickroll {
@@ -400,15 +417,9 @@
             <p>But several leading scientists and AI researchers have told the Guardian they believe Anthropic&rsquo;s claims are overblown &mdash; and that the real motivation behind withholding the model was</p>
           </div>
 
-          <!-- Fade + registration gate -->
-          <div class="gate-wrapper">
-            <div class="gate-box">
-              <div class="gate-heading">Register for free and continue reading</div>
-              <div class="gate-text">It only takes a moment and you&rsquo;ll get access to more news, plus courses, jobs and teaching resources tailored to you.</div>
-              <button class="gate-register-btn" id="register-btn">Register for free</button>
-              <div class="gate-signin">Already have an account? <a href="#">Sign in</a></div>
-            </div>
-          </div>
+          <p>But several leading scientists and AI researchers have told the Guardian they believe Anthropic&rsquo;s claims about the model&rsquo;s capabilities have been significantly overstated, raising questions about the company&rsquo;s true motivations for withholding access. Some suggest the secrecy may be designed to create a mystique around Mythos that drives investor interest rather than reflecting genuine safety concerns.</p>
+
+          <p>&ldquo;Releasing a marketing post with purposely vague language that obscures evidence brings into question if they are trying to garner further investment without scrutiny,&rdquo; said Dr Sarah Chen, a computational neuroscientist at MIT who studies large language model capabilities.</p>
         </div>
 
         <!-- Sidebar -->
@@ -438,6 +449,18 @@
       </div>
     </div>
 
+    <!-- Slide-up paywall -->
+    <div class="paywall-overlay" id="paywall">
+      <div class="paywall-scrim"></div>
+      <div class="paywall-box">
+        <div class="paywall-counter">You have 3 free articles remaining</div>
+        <div class="paywall-heading">Register for free to continue reading</div>
+        <div class="paywall-text">It only takes a moment and you&rsquo;ll get access to more news, plus courses, jobs and teaching resources tailored to you.</div>
+        <button class="paywall-register-btn" id="register-btn">Register for free</button>
+        <div class="paywall-signin">Already have an account? <a id="signin-link">Sign in</a></div>
+      </div>
+    </div>
+
     <!-- Rickroll (hidden until gate click) -->
     <div id="rickroll">
       <iframe
@@ -454,20 +477,15 @@
       var vimeoIframe = rickrollEl.querySelector("iframe");
       var player = new Vimeo.Player(vimeoIframe);
 
-      // Gate click: show rickroll, start video with sound
-      document.getElementById("register-btn").addEventListener("click", function () {
+      function triggerRickroll() {
         rickrollEl.style.display = "block";
         document.getElementById("article-page").style.display = "none";
+        document.getElementById("paywall").style.display = "none";
         player.play();
-      });
+      }
 
-      // Also trigger on the "Sign in" link
-      document.querySelector(".gate-signin a").addEventListener("click", function (e) {
-        e.preventDefault();
-        rickrollEl.style.display = "block";
-        document.getElementById("article-page").style.display = "none";
-        player.play();
-      });
+      document.getElementById("register-btn").addEventListener("click", triggerRickroll);
+      document.getElementById("signin-link").addEventListener("click", triggerRickroll);
     </script>
   </body>
 </html>
