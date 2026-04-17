@@ -597,29 +597,43 @@
       // from racing against the real play() call and silencing the video.
       var rickrollPrimed = false;
 
+      // Orchestration timeline (after the user taps Continue):
+      //   0 ms   — prime audio + start scroll + start paywall slide
+      //   500 ms — paywall finishes sliding offscreen (animationend)
+      //   1500 ms — music begins (video still hidden behind the image)
+      //   3000 ms — video reveals + logo rain starts
       function triggerRickroll() {
-        // Prime the Vimeo player *synchronously* inside the click handler. Mobile browsers (iOS Safari
-        // especially) only permit unmuted audio if play() is invoked from an active user gesture.
-        // We play-then-pause so nothing's audible yet; the real play() happens after the reveal delay.
+        primeAudioForMobile();
+        slowScrollToCenter(articleMediaEl, 1400);
+        paywallEl.classList.add("sliding-down");
+        paywallEl.addEventListener("animationend", onPaywallCleared, { once: true });
+      }
+
+      function onPaywallCleared() {
+        // 1s pause after the paywall clears before audio kicks in — builds anticipation
+        setTimeout(startAudio, 1000);
+      }
+
+      // Start playback while the iframe is still invisible so the music plays *before* the visual reveal
+      function startAudio() {
+        rickrollPrimed = true;                                          // guard against prime's late pause
+        player.play();
+        setTimeout(revealVideo, 1500);                                  // ~1.5s tease of the intro before the picture drops
+      }
+
+      function revealVideo() {
+        rickrollEl.classList.add("show");
+        document.body.classList.add("no-scroll");
+        startLogoRain();
+      }
+
+      // Prime the Vimeo player *synchronously* inside the click handler. Mobile browsers (iOS Safari
+      // especially) only permit unmuted audio if play() is invoked from an active user gesture.
+      // We play-then-pause so nothing's audible yet; the real play() happens in startAudio().
+      function primeAudioForMobile() {
         player.play().then(function () {
           if (!rickrollPrimed) return player.pause();
         }).catch(function () { /* swallow — prime is best-effort */ });
-
-        // Kick off a slow smooth scroll to center the hero-image slot immediately — by the time the paywall
-        // finishes sliding down and the 1s pause elapses, the viewport will be parked where the video appears.
-        slowScrollToCenter(articleMediaEl, 1400);
-        paywallEl.classList.add("sliding-down");
-        paywallEl.addEventListener("animationend", function () {
-          // 1s delay lets the paywall fully clear before the reveal — builds anticipation
-          setTimeout(function () {
-            rickrollEl.classList.add("show");
-            document.body.classList.add("no-scroll");
-            // Mark primed BEFORE calling play so any late prime-promise pause skips itself
-            rickrollPrimed = true;
-            player.play();
-            startLogoRain();
-          }, 1000);
-        }, { once: true });
       }
 
       document.getElementById("continue-btn").addEventListener("click", triggerRickroll);
