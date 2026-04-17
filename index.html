@@ -623,7 +623,7 @@
       // Kick off the rain loop — safe to call multiple times (idempotent)
       function startLogoRain() {
         if (rainTimer) return;
-        rainTimer = setInterval(spawnLogo, 90);  // ~11 logos/sec — properly MySpace-dense
+        rainTimer = setInterval(spawnLogo, 55);  // ~18 logos/sec — full-on MySpace deluge
       }
 
       // Create one falling logo with randomized position/size/speed and append it to the container
@@ -640,7 +640,7 @@
 
       // Randomize horizontal position, size, fall speed, and spin for each drop
       function applyRandomFallStyle(el) {
-        var size = randBetween(20, 48);                                 // px — cap at native favicon resolution to stay crisp
+        var size = randBetween(22, 72);                                 // px — max pushes past native res (mild upscaling blur is fine for moving elements)
         var duration = randBetween(3.5, 6.5);                           // seconds to cross viewport — slightly longer so peak velocity feels steady, not hurried
         var spin = Math.round(randBetween(180, 720)) * randomSign();    // deg of rotation during fall
         el.style.left = (edgeBiasedFraction() * 100) + "vw";            // denser toward the page edges, sparser in the center
