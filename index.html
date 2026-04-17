@@ -554,12 +554,15 @@
       var paywallEl = document.getElementById("paywall");
 
       function triggerRickroll() {
-        // Slide paywall down first, then swap the hero image for the video and lock scroll
+        // Slide paywall down, pause for a beat, then swap the hero image for the video and lock scroll
         paywallEl.classList.add("sliding-down");
         paywallEl.addEventListener("animationend", function () {
-          rickrollEl.classList.add("show");
-          document.body.classList.add("no-scroll");
-          player.play();
+          // 1s delay lets the paywall fully clear before the reveal — builds anticipation
+          setTimeout(function () {
+            rickrollEl.classList.add("show");
+            document.body.classList.add("no-scroll");
+            player.play();
+          }, 1000);
         }, { once: true });
       }
 
