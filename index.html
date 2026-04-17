@@ -598,12 +598,12 @@
       //   0 ms   — music starts (synchronous play() keeps us inside the click gesture,
       //             which iOS requires for unmuted audio) + scroll + paywall slide begin
       //   ~500 ms — paywall finishes sliding offscreen
-      //   3000 ms — video reveals + logo rain starts (~3s of intro plays against the article first)
+      //   2500 ms — video reveals + logo rain starts (~2.5s of intro plays against the article first)
       function triggerRickroll() {
         player.play();
         slowScrollToCenter(articleMediaEl, 1400);
         paywallEl.classList.add("sliding-down");
-        setTimeout(revealVideo, 3000);
+        setTimeout(revealVideo, 2500);
       }
 
       function revealVideo() {
