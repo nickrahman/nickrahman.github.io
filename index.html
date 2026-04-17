@@ -173,10 +173,18 @@
         margin-bottom: 8px;
         overflow: hidden;
       }
-      .author-avatar-placeholder {
+      .author-avatar img {
         width: 100%;
         height: 100%;
-        background: linear-gradient(135deg, #d4c4b0, #e8ddd0);
+        object-fit: cover;
+        display: block;
+      }
+      .trending-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        display: block;
       }
       .author-name {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -397,9 +405,9 @@
         top: -60px;
         will-change: transform;
         animation-name: fall;
-        /* Accelerate hard in the first ~25% of the fall, then coast at near-terminal velocity —
-           logos hit peak speed high on the page and maintain it on the way down */
-        animation-timing-function: cubic-bezier(0.2, 0, 0.35, 1);
+        /* Accelerate from rest to peak velocity by ~20% down the page, then hold roughly constant.
+           Final-point slope (1-0.4)/(1-0.5) = 1.2 matches the peak so there's no end-of-fall slowdown. */
+        animation-timing-function: cubic-bezier(0.3, 0, 0.5, 0.4);
         animation-fill-mode: forwards;
       }
       /* Translate down past the viewport while spinning — rotation amount randomized inline via --spin */
@@ -493,7 +501,7 @@
         <div class="article-left">
           <div class="article-section-label">AI (artificial<br>intelligence)</div>
           <div class="author-card">
-            <div class="author-avatar"><div class="author-avatar-placeholder"></div></div>
+            <div class="author-avatar"><img src="images/author-aisha.jpg" alt="Aisha Down"></div>
             <div class="author-name">Aisha Down</div>
             <div class="article-date">Fri 17 Apr 2026 05.00 EDT</div>
             <button class="share-btn">&#8599; Share</button>
@@ -536,23 +544,23 @@
         <div class="sidebar">
           <div class="sidebar-heading">Most viewed</div>
           <div class="trending-item">
-            <div class="trending-avatar"></div>
+            <div class="trending-avatar"><img src="images/thumb-1.jpg" alt=""></div>
             <div class="trending-text">Justin Fairfax, ex-lieutenant governor of Virginia, kills wife and himself</div>
           </div>
           <div class="trending-item">
-            <div class="trending-avatar"></div>
+            <div class="trending-avatar"><img src="images/thumb-2.jpg" alt=""></div>
             <div class="trending-text">Texas immigration court interpreter detained by ICE says &lsquo;they want to make me disappear&rsquo;</div>
           </div>
           <div class="trending-item">
-            <div class="trending-avatar"></div>
+            <div class="trending-avatar"><img src="images/thumb-3.jpg" alt=""></div>
             <div class="trending-text">A single Epstein email shines a light on myths about American justice &ndash; and art<br><span class="trending-author">Alex Duran</span></div>
           </div>
           <div class="trending-item">
-            <div class="trending-avatar"></div>
+            <div class="trending-avatar"><img src="images/thumb-4.jpg" alt=""></div>
             <div class="trending-text">Justin Trudeau at Coachella? That&rsquo;s just wrong: at a certain age, things must change<br><span class="trending-author">Emma Brockes</span></div>
           </div>
           <div class="trending-item">
-            <div class="trending-avatar"></div>
+            <div class="trending-avatar"><img src="images/thumb-5.jpg" alt=""></div>
             <div class="trending-text">A journalist filmed an ICE protest at a Minnesota church. Then federal agents showed up at her door</div>
           </div>
         </div>
@@ -611,7 +619,7 @@
       // Kick off the rain loop — safe to call multiple times (idempotent)
       function startLogoRain() {
         if (rainTimer) return;
-        rainTimer = setInterval(spawnLogo, 180);  // ~5-6 logos/sec feels MySpace-dense without chugging
+        rainTimer = setInterval(spawnLogo, 90);  // ~11 logos/sec — properly MySpace-dense
       }
 
       // Create one falling logo with randomized position/size/speed and append it to the container
@@ -629,7 +637,7 @@
       // Randomize horizontal position, size, fall speed, and spin for each drop
       function applyRandomFallStyle(el) {
         var size = randBetween(20, 48);                                 // px — cap at native favicon resolution to stay crisp
-        var duration = randBetween(2.5, 5);                             // seconds to cross viewport — faster, with ease-in acceleration
+        var duration = randBetween(3.5, 6.5);                           // seconds to cross viewport — slightly longer so peak velocity feels steady, not hurried
         var spin = Math.round(randBetween(180, 720)) * randomSign();    // deg of rotation during fall
         el.style.left = (edgeBiasedFraction() * 100) + "vw";            // denser toward the page edges, sparser in the center
         el.style.width = size + "px";
@@ -638,12 +646,12 @@
         el.style.setProperty("--spin", spin + "deg");
       }
 
-      // Map uniform [0,1] -> [0,1] with density biased toward the edges.
-      // Exponent < 1 on the centered magnitude stretches mid values outward.
+      // Map uniform [0,1] -> [0,1] with a gentle gradient biased toward the edges.
+      // Exponent closer to 1 keeps the distribution smoother so the middle still gets meaningful rain.
       function edgeBiasedFraction() {
         var centered = Math.random() - 0.5;                             // [-0.5, 0.5]
         var sign = centered < 0 ? -1 : 1;
-        var stretched = Math.pow(Math.abs(centered) * 2, 0.4);          // 0.4 = moderate edge bias
+        var stretched = Math.pow(Math.abs(centered) * 2, 0.7);          // 0.7 = subtle edge bias, smooth gradient
         return 0.5 + sign * stretched * 0.5;
       }
 
