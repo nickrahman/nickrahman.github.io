@@ -397,7 +397,8 @@
         top: -60px;
         will-change: transform;
         animation-name: fall;
-        animation-timing-function: linear;
+        /* Subtle acceleration — cubic-bezier that curves just past linear for a gravity-ish feel */
+        animation-timing-function: cubic-bezier(0.4, 0, 0.9, 0.5);
         animation-fill-mode: forwards;
       }
       /* Translate down past the viewport while spinning — rotation amount randomized inline via --spin */
@@ -626,7 +627,7 @@
       // Randomize horizontal position, size, fall speed, and spin for each drop
       function applyRandomFallStyle(el) {
         var size = randBetween(20, 48);                                 // px — cap at native favicon resolution to stay crisp
-        var duration = randBetween(4, 9);                               // seconds to cross viewport
+        var duration = randBetween(2.5, 5);                             // seconds to cross viewport — faster, with ease-in acceleration
         var spin = Math.round(randBetween(180, 720)) * randomSign();    // deg of rotation during fall
         el.style.left = randBetween(0, 100) + "vw";
         el.style.width = size + "px";
