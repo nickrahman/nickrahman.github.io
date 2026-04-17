@@ -600,8 +600,9 @@
 
       // --- Anthropic logo rain ---
 
-      // Claude app icon — served locally so we're not hotlinking claude.ai on every spawn
-      var CLAUDE_LOGO_SRC = "claude-logo.png";
+      // Claude app icon — served locally so we're not hotlinking claude.ai on every spawn.
+      // Query string busts browser cache from when this path served the opaque apple-touch-icon.
+      var CLAUDE_LOGO_SRC = "claude-logo.png?v=2";
 
       var rainContainer = document.getElementById("logo-rain");
       var rainTimer = null;
