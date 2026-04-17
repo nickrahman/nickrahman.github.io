@@ -590,8 +590,12 @@
 
       var paywallEl = document.getElementById("paywall");
 
+      var articleMediaEl = document.querySelector(".article-media");
+
       function triggerRickroll() {
-        // Slide paywall down, pause for a beat, then swap the hero image for the video and lock scroll
+        // Kick off a smooth scroll to center the hero-image slot immediately — by the time the paywall
+        // finishes sliding down and the 1s pause elapses, the viewport will be parked where the video appears.
+        articleMediaEl.scrollIntoView({ block: "center", behavior: "smooth" });
         paywallEl.classList.add("sliding-down");
         paywallEl.addEventListener("animationend", function () {
           // 1s delay lets the paywall fully clear before the reveal — builds anticipation
