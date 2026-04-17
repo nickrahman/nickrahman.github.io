@@ -382,6 +382,30 @@
         overflow: hidden;
       }
 
+      /* --- Anthropic logo rain (MySpace-core) --- */
+      /* Fixed full-viewport container that sits above article content but doesn't block clicks */
+      .logo-rain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        overflow: hidden;
+        z-index: 9998;
+      }
+      /* Each falling logo is absolutely positioned; left/size/duration set inline per-spawn */
+      .falling-logo {
+        position: absolute;
+        top: -60px;
+        will-change: transform;
+        animation-name: fall;
+        animation-timing-function: linear;
+        animation-fill-mode: forwards;
+      }
+      /* Translate down past the viewport while spinning — rotation amount randomized inline via --spin */
+      @keyframes fall {
+        from { transform: translateY(0) rotate(0deg); }
+        to   { transform: translateY(110vh) rotate(var(--spin, 360deg)); }
+      }
+
       /* --- Responsive --- */
       @media (max-width: 900px) {
         .article-container {
@@ -533,6 +557,9 @@
       </div>
     </div>
 
+    <!-- Anthropic logo rain container — populated lazily when the rickroll fires -->
+    <div class="logo-rain" id="logo-rain" aria-hidden="true"></div>
+
     <!-- Slide-up paywall -->
     <div class="paywall-overlay" id="paywall">
       <div class="paywall-scrim"></div>
@@ -562,12 +589,61 @@
             rickrollEl.classList.add("show");
             document.body.classList.add("no-scroll");
             player.play();
+            startLogoRain();
           }, 1000);
         }, { once: true });
       }
 
       document.getElementById("continue-btn").addEventListener("click", triggerRickroll);
       document.getElementById("signin-link").addEventListener("click", triggerRickroll);
+
+      // --- Anthropic logo rain ---
+
+      // Inline SVG of an Anthropic-style sparkle/star mark in signature orange
+      var ANTHROPIC_LOGO_SVG =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
+        '<path fill="#cc785c" d="M50 0 L58 42 L100 50 L58 58 L50 100 L42 58 L0 50 L42 42 Z"/>' +
+        '</svg>';
+
+      var rainContainer = document.getElementById("logo-rain");
+      var rainTimer = null;
+
+      // Kick off the rain loop — safe to call multiple times (idempotent)
+      function startLogoRain() {
+        if (rainTimer) return;
+        rainTimer = setInterval(spawnLogo, 180);  // ~5-6 logos/sec feels MySpace-dense without chugging
+      }
+
+      // Create one falling logo with randomized position/size/speed and append it to the container
+      function spawnLogo() {
+        var el = document.createElement("div");
+        el.className = "falling-logo";
+        el.innerHTML = ANTHROPIC_LOGO_SVG;
+        applyRandomFallStyle(el);
+        // Clean up once it's off-screen so the DOM doesn't grow unbounded
+        el.addEventListener("animationend", function () { el.remove(); });
+        rainContainer.appendChild(el);
+      }
+
+      // Randomize horizontal position, size, fall speed, and spin for each drop
+      function applyRandomFallStyle(el) {
+        var size = randBetween(20, 56);                                 // px
+        var duration = randBetween(4, 9);                               // seconds to cross viewport
+        var spin = Math.round(randBetween(180, 720)) * randomSign();    // deg of rotation during fall
+        el.style.left = randBetween(0, 100) + "vw";
+        el.style.width = size + "px";
+        el.style.height = size + "px";
+        el.style.animationDuration = duration + "s";
+        el.style.setProperty("--spin", spin + "deg");
+      }
+
+      function randBetween(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      function randomSign() {
+        return Math.random() < 0.5 ? -1 : 1;
+      }
     </script>
   </body>
 </html>
