@@ -292,6 +292,13 @@
       @keyframes slideUp {
         to { transform: translateY(0); }
       }
+      .paywall-overlay.sliding-down {
+        animation: slideDown 0.5s ease-in forwards;
+      }
+      @keyframes slideDown {
+        from { transform: translateY(0); }
+        to { transform: translateY(100%); }
+      }
       .paywall-scrim {
         height: 120px;
         flex-shrink: 0;
@@ -534,9 +541,15 @@
       var vimeoIframe = rickrollEl.querySelector("iframe");
       var player = new Vimeo.Player(vimeoIframe);
 
+      var paywallEl = document.getElementById("paywall");
+
       function triggerRickroll() {
-        rickrollEl.style.display = "block";
-        player.play();
+        // Slide paywall down first, then pop in the rickroll overlay
+        paywallEl.classList.add("sliding-down");
+        paywallEl.addEventListener("animationend", function () {
+          rickrollEl.style.display = "block";
+          player.play();
+        }, { once: true });
       }
 
       document.getElementById("continue-btn").addEventListener("click", triggerRickroll);
