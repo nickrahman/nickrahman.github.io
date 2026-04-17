@@ -229,9 +229,13 @@
         color: #121212;
       }
       .article-body a { color: #c70000; }
+      .article-media {
+        position: relative;
+        margin-bottom: 8px;
+      }
       .article-image {
         width: 100%;
-        margin-bottom: 8px;
+        display: block;
       }
       .image-caption {
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -356,36 +360,26 @@
       }
       .paywall-signin a { color: #ffe500; cursor: pointer; }
 
-      /* --- Rickroll modal --- */
+      /* --- Rickroll (swaps in for the hero image) --- */
       #rickroll {
         display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.75);
-        z-index: 9999;
-        align-items: center;
-        justify-content: center;
+        position: absolute;
+        inset: 0;
+        background: #000;
+        z-index: 2;
       }
       #rickroll.show {
-        display: flex;
-      }
-      .rickroll-modal {
-        width: min(90vw, 960px);
-        aspect-ratio: 16 / 9;
-        max-height: 85vh;
-        background: #000;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-        border-radius: 4px;
-        overflow: hidden;
+        display: block;
       }
       #rickroll iframe {
         width: 100%;
         height: 100%;
         border: none;
         display: block;
+      }
+      /* Freeze the page once the rickroll fires so the article can't scroll */
+      body.no-scroll {
+        overflow: hidden;
       }
 
       /* --- Responsive --- */
@@ -485,7 +479,18 @@
           <h1 class="article-headline">Anthropic&rsquo;s Mythos goes public: key details explained</h1>
           <p class="article-standfirst">The early release of Mythos signals a shift in Anthropic&rsquo;s strategy, with implications for how AI tools are built and used</p>
 
-          <img class="article-image" src="statue_of_zeus_2048x1365.jpg" alt="Anthropic AI model concept">
+          <div class="article-media">
+            <img class="article-image" src="statue_of_zeus_2048x1365.jpg" alt="Anthropic AI model concept">
+            <!-- Rickroll overlay — absolutely positioned to fully cover the hero image when triggered -->
+            <div id="rickroll">
+              <iframe
+                allow="autoplay; fullscreen"
+                tabindex="-1"
+                title="Video player"
+                src="https://player.vimeo.com/video/438334658?loop=1&title=0&byline=0&portrait=0"
+              ></iframe>
+            </div>
+          </div>
           <p class="image-caption">&#128247; Anthropic&rsquo;s decision to release Mythos ahead of schedule has caught the AI industry off guard, with rivals scrambling to respond. Photograph: Samuel Boivin/NurPhoto/Shutterstock</p>
 
           <div class="article-body">
@@ -540,18 +545,6 @@
       </div>
     </div>
 
-    <!-- Rickroll (hidden until gate click) -->
-    <div id="rickroll">
-      <div class="rickroll-modal">
-        <iframe
-          allow="autoplay; fullscreen"
-          tabindex="-1"
-          title="Video player"
-          src="https://player.vimeo.com/video/438334658?loop=1&title=0&byline=0&portrait=0"
-        ></iframe>
-      </div>
-    </div>
-
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
       var rickrollEl = document.getElementById("rickroll");
@@ -561,10 +554,11 @@
       var paywallEl = document.getElementById("paywall");
 
       function triggerRickroll() {
-        // Slide paywall down first, then pop in the rickroll overlay
+        // Slide paywall down first, then swap the hero image for the video and lock scroll
         paywallEl.classList.add("sliding-down");
         paywallEl.addEventListener("animationend", function () {
           rickrollEl.classList.add("show");
+          document.body.classList.add("no-scroll");
           player.play();
         }, { once: true });
       }
