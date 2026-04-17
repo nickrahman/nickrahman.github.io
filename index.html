@@ -625,7 +625,7 @@
 
       // Randomize horizontal position, size, fall speed, and spin for each drop
       function applyRandomFallStyle(el) {
-        var size = randBetween(20, 56);                                 // px
+        var size = randBetween(20, 48);                                 // px — cap at native favicon resolution to stay crisp
         var duration = randBetween(4, 9);                               // seconds to cross viewport
         var spin = Math.round(randBetween(180, 720)) * randomSign();    // deg of rotation during fall
         el.style.left = randBetween(0, 100) + "vw";
