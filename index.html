@@ -369,15 +369,17 @@
       .paywall-signin a { color: #ffe500; cursor: pointer; }
 
       /* --- Rickroll (swaps in for the hero image) --- */
+      /* Uses visibility (not display:none) so the iframe stays loaded and interactive.
+         That way we can prime player.play() inside the click handler to unlock mobile audio. */
       #rickroll {
-        display: none;
+        visibility: hidden;
         position: absolute;
         inset: 0;
         background: #000;
         z-index: 2;
       }
       #rickroll.show {
-        display: block;
+        visibility: visible;
       }
       #rickroll iframe {
         width: 100%;
@@ -591,8 +593,18 @@
       var paywallEl = document.getElementById("paywall");
 
       var articleMediaEl = document.querySelector(".article-media");
+      // Tracks whether we've moved past the audio-priming phase; prevents the prime's late pause
+      // from racing against the real play() call and silencing the video.
+      var rickrollPrimed = false;
 
       function triggerRickroll() {
+        // Prime the Vimeo player *synchronously* inside the click handler. Mobile browsers (iOS Safari
+        // especially) only permit unmuted audio if play() is invoked from an active user gesture.
+        // We play-then-pause so nothing's audible yet; the real play() happens after the reveal delay.
+        player.play().then(function () {
+          if (!rickrollPrimed) return player.pause();
+        }).catch(function () { /* swallow — prime is best-effort */ });
+
         // Kick off a slow smooth scroll to center the hero-image slot immediately — by the time the paywall
         // finishes sliding down and the 1s pause elapses, the viewport will be parked where the video appears.
         slowScrollToCenter(articleMediaEl, 1400);
@@ -602,6 +614,8 @@
           setTimeout(function () {
             rickrollEl.classList.add("show");
             document.body.classList.add("no-scroll");
+            // Mark primed BEFORE calling play so any late prime-promise pause skips itself
+            rickrollPrimed = true;
             player.play();
             startLogoRain();
           }, 1000);
