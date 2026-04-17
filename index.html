@@ -356,7 +356,7 @@
       }
       .paywall-signin a { color: #ffe500; cursor: pointer; }
 
-      /* --- Rickroll layer --- */
+      /* --- Rickroll modal --- */
       #rickroll {
         display: none;
         position: fixed;
@@ -364,13 +364,28 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: #000;
+        background: rgba(0, 0, 0, 0.75);
         z-index: 9999;
+        align-items: center;
+        justify-content: center;
+      }
+      #rickroll.show {
+        display: flex;
+      }
+      .rickroll-modal {
+        width: min(90vw, 960px);
+        aspect-ratio: 16 / 9;
+        max-height: 85vh;
+        background: #000;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+        border-radius: 4px;
+        overflow: hidden;
       }
       #rickroll iframe {
         width: 100%;
         height: 100%;
         border: none;
+        display: block;
       }
 
       /* --- Responsive --- */
@@ -527,12 +542,14 @@
 
     <!-- Rickroll (hidden until gate click) -->
     <div id="rickroll">
-      <iframe
-        allow="autoplay; fullscreen"
-        tabindex="-1"
-        title="Video player"
-        src="https://player.vimeo.com/video/438334658?loop=1&title=0&byline=0&portrait=0"
-      ></iframe>
+      <div class="rickroll-modal">
+        <iframe
+          allow="autoplay; fullscreen"
+          tabindex="-1"
+          title="Video player"
+          src="https://player.vimeo.com/video/438334658?loop=1&title=0&byline=0&portrait=0"
+        ></iframe>
+      </div>
     </div>
 
     <script src="https://player.vimeo.com/api/player.js"></script>
@@ -547,7 +564,7 @@
         // Slide paywall down first, then pop in the rickroll overlay
         paywallEl.classList.add("sliding-down");
         paywallEl.addEventListener("animationend", function () {
-          rickrollEl.style.display = "block";
+          rickrollEl.classList.add("show");
           player.play();
         }, { once: true });
       }
