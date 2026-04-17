@@ -665,7 +665,7 @@
       // Randomize horizontal position, size, fall speed, and spin for each drop
       function applyRandomFallStyle(el) {
         var size = biasedSize(22, 72, 2.2);                             // px — power curve skews the distribution toward smaller logos with only occasional big drops
-        var duration = randBetween(3.5, 6.5);                           // seconds to cross viewport — slightly longer so peak velocity feels steady, not hurried
+        var duration = randBetween(2.8, 5);                             // seconds to cross viewport — faster drop while keeping peak velocity feeling steady
         var spin = Math.round(randBetween(180, 720)) * randomSign();    // deg of rotation during fall
         el.style.left = (edgeBiasedFraction() * 100) + "vw";            // denser toward the page edges, sparser in the center
         el.style.width = size + "px";
