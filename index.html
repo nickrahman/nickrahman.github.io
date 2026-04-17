@@ -599,11 +599,8 @@
 
       // --- Anthropic logo rain ---
 
-      // Inline SVG of an Anthropic-style sparkle/star mark in signature orange
-      var ANTHROPIC_LOGO_SVG =
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' +
-        '<path fill="#cc785c" d="M50 0 L58 42 L100 50 L58 58 L50 100 L42 58 L0 50 L42 42 Z"/>' +
-        '</svg>';
+      // Claude app icon — served locally so we're not hotlinking claude.ai on every spawn
+      var CLAUDE_LOGO_SRC = "claude-logo.png";
 
       var rainContainer = document.getElementById("logo-rain");
       var rainTimer = null;
@@ -616,9 +613,10 @@
 
       // Create one falling logo with randomized position/size/speed and append it to the container
       function spawnLogo() {
-        var el = document.createElement("div");
+        var el = document.createElement("img");
         el.className = "falling-logo";
-        el.innerHTML = ANTHROPIC_LOGO_SVG;
+        el.src = CLAUDE_LOGO_SRC;
+        el.alt = "";
         applyRandomFallStyle(el);
         // Clean up once it's off-screen so the DOM doesn't grow unbounded
         el.addEventListener("animationend", function () { el.remove(); });
