@@ -630,11 +630,20 @@
         var size = randBetween(20, 48);                                 // px — cap at native favicon resolution to stay crisp
         var duration = randBetween(2.5, 5);                             // seconds to cross viewport — faster, with ease-in acceleration
         var spin = Math.round(randBetween(180, 720)) * randomSign();    // deg of rotation during fall
-        el.style.left = randBetween(0, 100) + "vw";
+        el.style.left = (edgeBiasedFraction() * 100) + "vw";            // denser toward the page edges, sparser in the center
         el.style.width = size + "px";
         el.style.height = size + "px";
         el.style.animationDuration = duration + "s";
         el.style.setProperty("--spin", spin + "deg");
+      }
+
+      // Map uniform [0,1] -> [0,1] with density biased toward the edges.
+      // Exponent < 1 on the centered magnitude stretches mid values outward.
+      function edgeBiasedFraction() {
+        var centered = Math.random() - 0.5;                             // [-0.5, 0.5]
+        var sign = centered < 0 ? -1 : 1;
+        var stretched = Math.pow(Math.abs(centered) * 2, 0.4);          // 0.4 = moderate edge bias
+        return 0.5 + sign * stretched * 0.5;
       }
 
       function randBetween(min, max) {
