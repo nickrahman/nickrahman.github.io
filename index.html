@@ -593,9 +593,9 @@
       var articleMediaEl = document.querySelector(".article-media");
 
       function triggerRickroll() {
-        // Kick off a smooth scroll to center the hero-image slot immediately — by the time the paywall
+        // Kick off a slow smooth scroll to center the hero-image slot immediately — by the time the paywall
         // finishes sliding down and the 1s pause elapses, the viewport will be parked where the video appears.
-        articleMediaEl.scrollIntoView({ block: "center", behavior: "smooth" });
+        slowScrollToCenter(articleMediaEl, 1400);
         paywallEl.classList.add("sliding-down");
         paywallEl.addEventListener("animationend", function () {
           // 1s delay lets the paywall fully clear before the reveal — builds anticipation
@@ -610,6 +610,26 @@
 
       document.getElementById("continue-btn").addEventListener("click", triggerRickroll);
       document.getElementById("signin-link").addEventListener("click", triggerRickroll);
+
+      // Custom smooth scroll — native scrollIntoView with behavior:"smooth" is browser-paced (~400ms)
+      // which felt too quick. This eases over a configurable duration with an ease-in-out curve.
+      function slowScrollToCenter(el, durationMs) {
+        var rect = el.getBoundingClientRect();
+        var startY = window.scrollY;
+        var targetY = startY + rect.top + rect.height / 2 - window.innerHeight / 2;
+        var distance = targetY - startY;
+        var startTime = performance.now();
+        requestAnimationFrame(function step(now) {
+          var progress = Math.min((now - startTime) / durationMs, 1);
+          window.scrollTo(0, startY + distance * easeInOutQuad(progress));
+          if (progress < 1) requestAnimationFrame(step);
+        });
+      }
+
+      // Standard ease-in-out quadratic — gentle acceleration then deceleration
+      function easeInOutQuad(t) {
+        return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      }
 
       // --- Anthropic logo rain ---
 
@@ -640,7 +660,7 @@
 
       // Randomize horizontal position, size, fall speed, and spin for each drop
       function applyRandomFallStyle(el) {
-        var size = randBetween(22, 72);                                 // px — max pushes past native res (mild upscaling blur is fine for moving elements)
+        var size = biasedSize(22, 72, 2.2);                             // px — power curve skews the distribution toward smaller logos with only occasional big drops
         var duration = randBetween(3.5, 6.5);                           // seconds to cross viewport — slightly longer so peak velocity feels steady, not hurried
         var spin = Math.round(randBetween(180, 720)) * randomSign();    // deg of rotation during fall
         el.style.left = (edgeBiasedFraction() * 100) + "vw";            // denser toward the page edges, sparser in the center
@@ -661,6 +681,12 @@
 
       function randBetween(min, max) {
         return Math.random() * (max - min) + min;
+      }
+
+      // Sample in [min, max] weighted toward `min`. `power` > 1 pulls the distribution downward;
+      // with power 2.2 the upper tail gets meaningfully sparser than the bottom.
+      function biasedSize(min, max, power) {
+        return min + Math.pow(Math.random(), power) * (max - min);
       }
 
       function randomSign() {
