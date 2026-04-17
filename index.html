@@ -397,8 +397,9 @@
         top: -60px;
         will-change: transform;
         animation-name: fall;
-        /* Subtle acceleration — cubic-bezier that curves just past linear for a gravity-ish feel */
-        animation-timing-function: cubic-bezier(0.4, 0, 0.9, 0.5);
+        /* Accelerate hard in the first ~25% of the fall, then coast at near-terminal velocity —
+           logos hit peak speed high on the page and maintain it on the way down */
+        animation-timing-function: cubic-bezier(0.2, 0, 0.35, 1);
         animation-fill-mode: forwards;
       }
       /* Translate down past the viewport while spinning — rotation amount randomized inline via --spin */
